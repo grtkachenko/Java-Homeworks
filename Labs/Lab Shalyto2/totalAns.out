@@ -1,0 +1,50 @@
+4 1 R M
+2 3 R M
+4 4 L M
+2 2 M M
+
+1 1 R M
+
+3 3 R M
+3 3 L M
+2 1 M M
+
+4 4 R M
+4 2 L M
+1 2 M M
+3 4 M M
+
+3 2 M M
+1 1 R M
+2 3 M L
+
+4 2 M M
+5 3 M M
+5 1 M M
+2 1 R M
+3 1 L M
+
+4 4 L M
+4 3 M M
+1 2 M M
+4 3 R M
+
+5 5 R M
+4 2 M M
+1 2 R M
+3 3 R M
+1 2 M M
+
+3 5 R M
+1 5 M M
+6 6 L M
+2 1 R M
+4 6 M M
+4 2 L M
+
+3 2 L M
+3 5 R M
+5 5 M M
+1 5 R M
+6 4 R M
+2 1 R M
