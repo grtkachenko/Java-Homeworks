@@ -1,0 +1,22 @@
+2 S
+S -> aA
+A -> b
+ab
+
+3 S
+S -> aaAaa
+A -> Ab
+A -> c
+aacbcbaa
+
+3 S
+S -> aA
+A -> S
+A -> b
+aab
+
+3 S
+A -> aB
+S -> aABCd
+C ->
+ab
