@@ -1,0 +1,282 @@
+start: start
+accept: y
+reject: n
+blank: _
+start 0 -> start 0 >
+start 1 -> start 1 >
+start _ -> write_one # >
+write_one _ -> write_zero 1 >
+write_zero _ -> skip_begin 0 <
+skip_begin 1 -> start_mul 1 <
+
+start_mul # -> check_fail # <
+check_fail 0 -> check_fail 0 <
+check_fail 1 -> back_to_start 1 ^
+check_fail _ -> erase_and_exit _ >
+erase_and_exit 0 -> erase_and_exit _ >
+erase_and_exit 1 -> erase_and_exit _ >
+erase_and_exit # -> build_ans_and_print _ >
+
+back_to_start 0 -> back_to_start 0 >
+back_to_start 1 -> back_to_start 1 >
+back_to_start # -> handle0 # <
+
+
+handle0 0 -> handle1 0 <
+handle0 1 -> mul0 1 ^
+
+handle1 0 -> back_to_start_and_shift1 0 ^
+handle1 1 -> back_to_start_and_shift1 1 ^
+handle1 _ -> back_to_start_and_sub_one _ >
+handle1_cont 0 -> handle2 0 <
+handle1_cont 1 -> mul1 1 ^
+
+handle2 0 -> back_to_start_and_shift2 0 ^
+handle2 1 -> back_to_start_and_shift2 1 ^
+handle2 _ -> back_to_start_and_sub_one _ >
+handle2_cont 0 -> handle3 0 <
+handle2_cont 1 -> mul2 1 ^
+
+handle3 0 -> back_to_start_and_shift3 0 ^
+handle3 1 -> back_to_start_and_shift3 1 ^
+handle3 _ -> back_to_start_and_sub_one _ >
+handle3_cont 0 -> handle4 0 <
+handle3_cont 1 -> mul3 1 ^
+
+handle4 0 -> back_to_start_and_shift4 0 ^
+handle4 1 -> back_to_start_and_shift4 1 ^
+handle4 _ -> back_to_start_and_sub_one _ >
+handle4_cont 0 -> handle5 0 <
+handle4_cont 1 -> mul4 1 ^
+
+handle5 _ -> back_to_start_and_sub_one _ >
+
+back_to_start_and_sub_one 0 -> back_to_start_and_sub_one 0 >
+back_to_start_and_sub_one 1 -> back_to_start_and_sub_one 1 >
+back_to_start_and_sub_one # -> sub_one # <
+
+sub_one 0 -> sub_one 1 <
+sub_one 1 -> check_if_last 0 <
+check_if_last _ -> is_last _ >
+check_if_last 0 -> not_last 0 >
+check_if_last 1 -> not_last 1 >
+is_last 0 -> back_to_start_and_start_new_iteration _ >
+not_last 0 -> back_to_start_and_start_new_iteration 0 >
+
+back_to_start_and_start_new_iteration 0 -> back_to_start_and_start_new_iteration 0 >
+back_to_start_and_start_new_iteration 1 -> back_to_start_and_start_new_iteration 1 >
+back_to_start_and_start_new_iteration # -> fix_ans # >
+
+
+
+back_to_start_and_shift1 0 -> back_to_start_and_shift1 0 >
+back_to_start_and_shift1 1 -> back_to_start_and_shift1 1 >
+back_to_start_and_shift1 # -> shift b >
+back_to_start_and_shift2 0 -> back_to_start_and_shift2 0 >
+back_to_start_and_shift2 1 -> back_to_start_and_shift2 1 >
+back_to_start_and_shift2 # -> shift c >
+back_to_start_and_shift3 0 -> back_to_start_and_shift3 0 >
+back_to_start_and_shift3 1 -> back_to_start_and_shift3 1 >
+back_to_start_and_shift3 # -> shift d >
+back_to_start_and_shift4 0 -> back_to_start_and_shift4 0 >
+back_to_start_and_shift4 1 -> back_to_start_and_shift4 1 >
+back_to_start_and_shift4 # -> shift e >
+
+shift 0 -> shift0 0 >
+shift 1 -> shift1 0 >
+shift0 0 -> shift00 0 >
+shift0 1 -> shift00 1 >
+shift0 2 -> shift00 2 >
+shift0 3 -> shift00 3 >
+shift0 4 -> shift00 4 >
+shift0 5 -> shift00 5 >
+shift0 _ -> shift00 0 >
+shift1 0 -> shift11 0 >
+shift1 1 -> shift11 1 >
+shift1 2 -> shift11 2 >
+shift1 3 -> shift11 3 >
+shift1 4 -> shift11 4 >
+shift1 5 -> shift11 5 >
+shift1 _ -> shift11 0 >
+shift00 0 -> shift0 0 >
+shift00 1 -> shift1 0 >
+shift00 _ -> write_zero_and_back_start_from_shifting 0 >
+shift11 0 -> shift0 1 >
+shift11 1 -> shift1 1 >
+shift11 _ -> write_zero_and_back_start_from_shifting 1 >
+write_zero_and_back_start_from_shifting _ -> back_start_from_shifting 0 ^
+
+back_start_from_shifting 0 -> back_start_from_shifting 0 <
+back_start_from_shifting 1 -> back_start_from_shifting 1 <
+back_start_from_shifting 2 -> back_start_from_shifting 2 <
+back_start_from_shifting 3 -> back_start_from_shifting 3 <
+back_start_from_shifting 4 -> back_start_from_shifting 4 <
+back_start_from_shifting 5 -> back_start_from_shifting 5 <
+back_start_from_shifting b -> skip_after_shift1 # <
+back_start_from_shifting c -> skip_after_shift2 # <
+back_start_from_shifting d -> skip_after_shift3 # <
+back_start_from_shifting e -> skip_after_shift4 # <
+
+skip_after_shift1 0 -> handle1_cont 0 <
+skip_after_shift1 1 -> handle1_cont 1 <
+
+skip_after_shift2 0 -> skip_after_shift21 0 <
+skip_after_shift2 1 -> skip_after_shift21 1 <
+skip_after_shift21 0 -> handle2_cont 0 <
+skip_after_shift21 1 -> handle2_cont 1 <
+
+skip_after_shift3 0 -> skip_after_shift31 0 <
+skip_after_shift3 1 -> skip_after_shift31 1 <
+skip_after_shift31 0 -> skip_after_shift32 0 <
+skip_after_shift31 1 -> skip_after_shift32 1 <
+skip_after_shift32 0 -> handle3_cont 0 <
+skip_after_shift32 1 -> handle3_cont 1 <
+
+skip_after_shift4 0 -> skip_after_shift41 0 <
+skip_after_shift4 1 -> skip_after_shift41 1 <
+skip_after_shift41 0 -> skip_after_shift42 0 <
+skip_after_shift41 1 -> skip_after_shift42 1 <
+skip_after_shift42 0 -> skip_after_shift43 0 <
+skip_after_shift42 1 -> skip_after_shift43 1 <
+skip_after_shift43 0 -> handle4_cont 0 <
+skip_after_shift43 1 -> handle4_cont 1 <
+
+mul0 1 -> back_start_from_mul0 1 ^
+mul1 1 -> back_start_from_mul1 1 ^
+mul2 1 -> back_start_from_mul2 1 ^
+mul3 1 -> back_start_from_mul3 1 ^
+mul4 1 -> back_start_from_mul4 1 ^
+
+back_start_from_mul0 0 -> back_start_from_mul0 0 >
+back_start_from_mul0 1 -> back_start_from_mul0 1 >
+back_start_from_mul0 # -> exec_mul_no a >
+back_start_from_mul1 0 -> back_start_from_mul1 0 >
+back_start_from_mul1 1 -> back_start_from_mul1 1 >
+back_start_from_mul1 # -> exec_mul_no b >
+back_start_from_mul2 0 -> back_start_from_mul2 0 >
+back_start_from_mul2 1 -> back_start_from_mul2 1 >
+back_start_from_mul2 # -> exec_mul_no c >
+back_start_from_mul3 0 -> back_start_from_mul3 0 >
+back_start_from_mul3 1 -> back_start_from_mul3 1 >
+back_start_from_mul3 # -> exec_mul_no d >
+back_start_from_mul4 0 -> back_start_from_mul4 0 >
+back_start_from_mul4 1 -> back_start_from_mul4 1 >
+back_start_from_mul4 # -> exec_mul_no e >
+
+exec_mul_no 0 -> exec_mul0_no 0 >
+exec_mul_no 1 -> exec_mul1_no 1 >
+exec_mul_no _ -> back_to_start_from_exec_mul _ <
+exec_mul_yes 0 -> exec_mul0_yes 0 >
+exec_mul_yes 1 -> exec_mul1_yes 1 >
+exec_mul_yes _ -> exec_mul_yes_write_zero 0 >
+exec_mul_yes_write_zero _ -> exec_mul_yes_write_one 1 <
+exec_mul_yes_write_one 0 -> back_to_start_from_exec_mul 0 <
+
+
+exec_mul0_no 0 -> exec_mul_no 0 >
+exec_mul0_no 1 -> exec_mul_no 1 >
+exec_mul0_yes 0 -> exec_mul_no 1 >
+exec_mul0_yes 1 -> exec_mul_yes 0 >
+
+exec_mul1_no 0 -> exec_mul_no 1 >
+exec_mul1_no 1 -> exec_mul_yes 0 >
+exec_mul1_yes 0 -> exec_mul_yes 0 >
+exec_mul1_yes 1 -> exec_mul_yes 1 >
+
+back_to_start_from_exec_mul 0 -> back_to_start_from_exec_mul 0 <
+back_to_start_from_exec_mul 1 -> back_to_start_from_exec_mul 1 <
+back_to_start_from_exec_mul a -> skip_after_mul0 # <
+back_to_start_from_exec_mul b -> skip_after_mul1 # <
+back_to_start_from_exec_mul c -> skip_after_mul2 # <
+back_to_start_from_exec_mul d -> skip_after_mul3 # <
+back_to_start_from_exec_mul e -> skip_after_mul4 # <
+
+skip_after_mul0 0 -> handle1 0 <
+skip_after_mul0 1 -> handle1 1 <
+
+skip_after_mul1 0 -> skip_after_mul11 0 <
+skip_after_mul1 1 -> skip_after_mul11 1 <
+skip_after_mul11 0 -> handle2 0 <
+skip_after_mul11 1 -> handle2 1 <
+
+skip_after_mul2 0 -> skip_after_mul21 0 <
+skip_after_mul2 1 -> skip_after_mul21 1 <
+skip_after_mul21 0 -> skip_after_mul22 0 <
+skip_after_mul21 1 -> skip_after_mul22 1 <
+skip_after_mul22 0 -> handle3 0 <
+skip_after_mul22 1 -> handle3 1 <
+
+skip_after_mul3 0 -> skip_after_mul31 0 <
+skip_after_mul3 1 -> skip_after_mul31 1 <
+skip_after_mul31 0 -> skip_after_mul32 0 <
+skip_after_mul31 1 -> skip_after_mul32 1 <
+skip_after_mul32 0 -> skip_after_mul33 0 <
+skip_after_mul32 1 -> skip_after_mul33 1 <
+skip_after_mul33 0 -> handle4 0 <
+skip_after_mul33 1 -> handle4 1 <
+
+skip_after_mul4 0 -> skip_after_mul41 0 <
+skip_after_mul4 1 -> skip_after_mul41 1 <
+skip_after_mul41 0 -> skip_after_mul42 0 <
+skip_after_mul41 1 -> skip_after_mul42 1 <
+skip_after_mul42 0 -> skip_after_mul43 0 <
+skip_after_mul42 1 -> skip_after_mul43 1 <
+skip_after_mul43 0 -> skip_after_mul44 0 <
+skip_after_mul43 1 -> skip_after_mul44 1 <
+skip_after_mul44 0 -> handle5 0 <
+skip_after_mul44 1 -> handle5 1 <
+
+fix_ans 0 -> fix_ans_right 0 >
+fix_ans 1 -> fix_ans_right 1 >
+fix_ans _ -> back_to_start_fix _ <
+
+fix_ans_right 0 -> fix_ans_left0 0 <
+fix_ans_right 1 -> fix_ans_left1 0 <
+fix_ans_left0 0 -> skip_fix 0 >
+fix_ans_left0 1 -> skip_fix 0 >
+fix_ans_left1 0 -> skip_fix 1 >
+fix_ans_left1 1 -> skip_fix 1 >
+skip_fix 0 -> fix_ans 0 >
+
+back_to_start_fix 0 -> back_to_start_fix 0 <
+back_to_start_fix 1 -> back_to_start_fix 1 <
+back_to_start_fix # -> start_mul # ^
+
+build_ans_and_print 0 -> skip_build_ans_and_print 0 >
+build_ans_and_print 1 -> skip_build_ans_and_print 1 >
+build_ans_and_print _ -> move _ <
+skip_build_ans_and_print 0 -> build_ans_and_print = >
+skip_build_ans_and_print 1 -> build_ans_and_print = >
+
+move 0 -> move0 _ <
+move 1 -> move1 _ <
+move = -> move _ <
+move _ -> move_to_first _ <
+
+move0 0 -> move0 0 <
+move0 1 -> move0 1 <
+move0 = -> move0 = <
+move0 _ -> move0_second _ <
+move0_second 0 -> move0_second 0 <
+move0_second 1 -> move1_second 0 <
+move0_second _ -> return_to_right 0 ^
+move1 0 -> move1 0 <
+move1 1 -> move1 1 <
+move1 = -> move1 = <
+move1 _ -> move1_second _ <
+move1_second 0 -> move0_second 1 <
+move1_second 1 -> move1_second 1 <
+move1_second _ -> return_to_right 1 ^
+
+return_to_right 0 -> return_to_right 0 >
+return_to_right 1 -> return_to_right 1 >
+return_to_right _ -> go_to_next _ >
+
+go_to_next 0 -> go_to_next 0 >
+go_to_next 1 -> go_to_next 1 >
+go_to_next = -> go_to_next = >
+go_to_next _ -> move _ <
+
+move_to_first 0 -> move_to_first 0 <
+move_to_first 1 -> move_to_first 1 <
+move_to_first _ -> y _ >
